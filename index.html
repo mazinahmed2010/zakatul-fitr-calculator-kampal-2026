@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>حاسبة زكاة الفطر - أوغندا 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0b3b2a 0%, #1a5f3e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 10px;
+        }
+
+        .container {
+            background: #f9fff9;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 15px 40px rgba(0, 30, 0, 0.5);
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid #2e7d5e;
+            margin: 10px auto;
+        }
+
+        .bismillah {
+            font-size: 24px;
+            color: #0b3b2a;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 rgba(0,80,0,0.1);
+        }
+
+        .main-title {
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 30px;
+            border: 2px solid #0b3b2a;
+        }
+
+        .main-title h1 {
+            color: #0b3b2a;
+            font-size: 22px;
+            font-weight: 900;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+            margin-bottom: 3px;
+        }
+
+        .main-title h1 small {
+            font-size: 14px;
+            display: block;
+            color: #1a5f3e;
+            margin-top: 3px;
+        }
+
+        .update-badge {
+            background: #0b3b2a;
+            color: #90ee90;
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 40px;
+            margin: 5px 5px 15px 5px;
+            font-weight: 600;
+            font-size: 13px;
+            border: 2px solid #90ee90;
+            box-shadow: 0 3px 10px rgba(0,40,0,0.3);
+        }
+
+        .update-badge span {
+            color: white;
+            display: block;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .calculator {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #0b3b2a;
+            box-shadow: 0 5px 20px rgba(0,40,0,0.2);
+        }
+
+        .calculator h2 {
+            color: #0b3b2a;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #0b3b2a;
+            font-weight: 700;
+            font-size: 14px;
+            padding-right: 5px;
+        }
+
+        .label-bilingual {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .label-arabic {
+            color: #0b3b2a;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .label-english {
+            color: #1a5f3e;
+            font-weight: 600;
+            font-size: 12px;
+            direction: ltr;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #2e7d5e;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: inherit;
+            background: white;
+            color: #0b3b2a;
+            font-weight: 600;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232e7d5e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: left 12px center;
+            padding-left: 35px;
+        }
+
+        select:hover, input:hover {
+            border-color: #0b3b2a;
+            box-shadow: 0 0 0 3px rgba(11, 59, 42, 0.1);
+        }
+
+        /* تحسين حقل إدخال عدد الأشخاص */
+        .people-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #peopleCount {
+            width: 100%;
+            padding: 12px;
+            padding-right: 60px; /* مساحة للزر على اليمين */
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            -moz-appearance: textfield;
+        }
+
+        #peopleCount::-webkit-outer-spin-button,
+        #peopleCount::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .clear-button {
+            position: absolute;
+            right: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5253);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #fff;
+            z-index: 2;
+        }
+
+        .clear-button:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #ee5253, #ff6b6b);
+        }
+
+        /* أزرار التحكم بالعدد */
+        .number-controls {
+            position: absolute;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .number-btn {
+            background: linear-gradient(135deg, #2e7d5e, #1a5f3e);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #90ee90;
+        }
+
+        .number-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #1a5f3e, #2e7d5e);
+        }
+
+        .number-btn.minus {
+            background: linear-gradient(135deg, #ffa502, #ff7f50);
+        }
+
+        .number-btn.minus:active {
+            background: linear-gradient(135deg, #ff7f50, #ffa502);
+        }
+
+        /* تحسينات للهواتف الصغيرة */
+        @media (max-width: 380px) {
+            .clear-button, .number-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+            
+            #peopleCount {
+                padding-right: 50px;
+                font-size: 16px;
+            }
+        }
+
+        .rate-box {
+            background: linear-gradient(135deg, #f5fff0, #e8ffe8);
+            padding: 12px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: center;
+            border: 2px solid #0b3b2a;
+        }
+
+        .rate-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: #0b3b2a;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+            direction: ltr;
+            margin-bottom: 3px;
+        }
+
+        .rate-label {
+            color: #1a5f3e;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .rate-label-english {
+            color: #1a5f3e;
+            font-size: 11px;
+            font-weight: 500;
+            direction: ltr;
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #0b3b2a, #1a5f3e);
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 15px 0;
+            border: 2px solid #90ee90;
+            box-shadow: 0 5px 15px rgba(0, 30, 0, 0.4);
+        }
+
+        .result-amount {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            line-height: 1.2;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+            direction: ltr;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .result-label {
+            color: #e8f5e9;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .result-label-english {
+            color: #d4edda;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            direction: ltr;
+        }
+
+        .result-details {
+            color: #d4edda;
+            font-size: 13px;
+            padding-top: 8px;
+            border-top: 2px dashed #90ee90;
+            font-weight: 600;
+            word-break: break-word;
+        }
+        
+        .result-details small {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            margin-top: 5px;
+            color: #a5d6a7;
+            direction: ltr;
+        }
+
+        .calc-btn {
+            background: linear-gradient(135deg, #0b3b2a, #1a5f3e);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            border: 2px solid #90ee90;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .calc-btn:active {
+            transform: scale(0.98);
+            background: linear-gradient(135deg, #1a5f3e, #0b3b2a);
+        }
+
+        .greeting-section {
+            background: #daf1da;
+            padding: 12px;
+            border-radius: 15px;
+            margin: 12px 0;
+            border: 2px solid #2e7d5e;
+        }
+
+        .greeting-text {
+            background: linear-gradient(135deg, #a8e6b0, #7ccf8c);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-align: center;
+            border: 2px solid #0b3b2a;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0b3b2a;
+            line-height: 1.5;
+        }
+
+        .greeting-text small {
+            display: block;
+            margin-top: 5px;
+            font-size: 11px;
+            color: #1a5f3e;
+            direction: ltr;
+        }
+
+        .intro-text {
+            font-size: 13px;
+            color: #0b3b2a;
+            line-height: 1.6;
+            font-weight: 500;
+            padding: 0 5px;
+        }
+
+        .intro-text p {
+            margin-bottom: 8px;
+        }
+
+        .intro-text small {
+            display: block;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #1a5f3e;
+            font-style: italic;
+            direction: ltr;
+        }
+
+        .table-title {
+            background: #0b3b2a;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 40px 40px 0 0;
+            font-size: 16px;
+            font-weight: 800;
+            text-align: center;
+            margin-top: 15px;
+            border: 2px solid #2e7d5e;
+            border-bottom: none;
+        }
+        
+        .table-title small {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: #a8e6b0;
+            margin-top: 3px;
+            direction: ltr;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 0 0 15px 15px;
+            border: 2px solid #0b3b2a;
+            border-top: none;
+            background: white;
+            margin-bottom: 15px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 600px;
+        }
+
+        th {
+            background: #1a5f3e;
+            color: white;
+            padding: 8px 4px;
+            font-weight: 700;
+            text-align: center;
+            border: 1px solid #2e7d5e;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 6px 3px;
+            text-align: center;
+            border: 1px solid #a8e6b0;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(even) {
+            background: #f0fff4;
+        }
+
+        tr:hover {
+            background: #c8e6c9;
+        }
+
+        .food-name-cell {
+            font-weight: 700;
+            color: #0b3b2a;
+            text-align: right;
+            padding-right: 8px;
+            white-space: normal;
+            min-width: 100px;
+        }
+
+        .food-name-cell small {
+            display: block;
+            color: #1a5f3e;
+            font-size: 9px;
+            font-weight: normal;
+            direction: ltr;
+        }
+
+        .amount-cell {
+            font-weight: 600;
+            color: #1a5f3e;
+            direction: ltr;
+        }
+
+        .note {
+            background: #e8f5e9;
+            border: 2px solid #0b3b2a;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 15px 0;
+            color: #0b3b2a;
+            font-weight: 600;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .note span {
+            color: #1a5f3e;
+            font-size: 14px;
+        }
+        
+        .note small {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            margin-top: 5px;
+            color: #1a5f3e;
+            direction: ltr;
+        }
+
+        .developer-signature {
+            background: linear-gradient(135deg, #1a5f3e, #0b3b2a);
+            color: white;
+            padding: 15px;
+            border-radius: 40px;
+            margin: 15px 0 10px 0;
+            text-align: center;
+            border: 2px solid #90ee90;
+            box-shadow: 0 3px 15px rgba(0,40,0,0.4);
+        }
+
+        .developer-name {
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+        }
+
+        .developer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .developer-phone {
+            font-size: 15px;
+            font-weight: 700;
+            direction: ltr;
+            background: rgba(255,255,255,0.15);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 30px;
+            border: 1px solid #90ee90;
+        }
+
+        .developer-email {
+            font-size: 13px;
+            font-weight: 600;
+            direction: ltr;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 30px;
+            border: 1px solid #90ee90;
+            word-break: break-all;
+        }
+
+        .developer-title {
+            font-size: 12px;
+            color: #e8f5e9;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        
+        .developer-title small {
+            display: block;
+            font-size: 10px;
+            color: #a8e6b0;
+            margin-top: 3px;
+            direction: ltr;
+        }
+
+        .umsc-reference {
+            background: #c8e6c9;
+            color: #0b3b2a;
+            padding: 8px;
+            border-radius: 20px;
+            margin: 10px 0;
+            font-weight: 700;
+            border: 2px dashed #1a5f3e;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .umsc-reference small {
+            display: block;
+            font-size: 10px;
+            font-weight: 500;
+            color: #1a5f3e;
+            margin-top: 3px;
+            direction: ltr;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            color: #0b3b2a;
+            font-size: 11px;
+            font-weight: 600;
+            border-top: 2px solid #2e8b57;
+            padding-top: 12px;
+            line-height: 1.5;
+        }
+        
+        .footer small {
+            display: block;
+            font-size: 10px;
+            font-weight: 400;
+            color: #1a5f3e;
+            margin-top: 3px;
+            direction: ltr;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- البسملة -->
+        <div class="bismillah">بسم الله الرحمن الرحيم</div>
+
+        <!-- العنوان مع الترجمة -->
+        <div class="main-title">
+            <h1>
+                حاسبة زكاة الفطر
+                <small>Zakatul Fitr Calculator - Uganda 2026</small>
+            </h1>
+        </div>
+
+        <!-- تم التحديث حسب بيان المجلس -->
+        <div class="update-badge">
+            📢 تم التحديث حسب بيان المجلس الأعلى للمسلمين في أوغندا 2026
+            <span>Updated according to Uganda Muslim Supreme Council (UMSC) statement 2026</span>
+        </div>
+
+        <!-- التطبيق (الحاسبة) -->
+        <div class="calculator">
+            <h2>🌙 1447هـ - 2026م 🌙</h2>
+            
+            <!-- اختيار نوع الطعام -->
+            <div class="form-group">
+                <div class="label-bilingual">
+                    <span class="label-arabic">🌾 اختر نوع الطعام</span>
+                    <span class="label-english">Select Food Type</span>
+                </div>
+                <select id="foodType">
+                    <option value="">-- اختر من القائمة / Select from list --</option>
+                    <option value="bananas">🍌 موز غير مقشر / Un pealed bananas - 5,000 UGX</option>
+                    <option value="rice">🍚 أرز / Rice - 12,500 UGX</option>
+                    <option value="wheat">🌾 دقيق قمح / Wheat flour - 8,750 UGX</option>
+                    <option value="maize">🌽 دقيق ذرة / Maize flour - 6,250 UGX</option>
+                    <option value="cassava">🥔 دقيق كاسافا / Cassava flour - 3,750 UGX</option>
+                    <option value="millet">🌾 دقيق دخن / Millet flour - 7,500 UGX</option>
+                    <option value="beans">🫘 فاصوليا / Beans - 10,000 UGX</option>
+                    <option value="potatoes">🥔 بطاطس / Irish potatoes - 7,500 UGX</option>
+                    <option value="sorghum">🌾 ذرة رفيعة / Sorghum - 8,750 UGX</option>
+                </select>
+            </div>
+
+            <!-- عدد الأشخاص (محسّن) -->
+            <div class="form-group">
+                <div class="label-bilingual">
+                    <span class="label-arabic">👥 عدد الأشخاص</span>
+                    <span class="label-english">Number of People</span>
+                </div>
+                <div class="people-input-container">
+                    <!-- زر المسح (X) -->
+                    <button class="clear-button" onclick="clearPeopleInput()" type="button">✕</button>
+                    
+                    <!-- حقل الإدخال -->
+                    <input type="number" id="peopleCount" min="1" value="1" step="1" inputmode="numeric">
+                    
+                    <!-- أزرار التحكم (+ و -) -->
+                    <div class="number-controls">
+                        <button class="number-btn plus" onclick="increasePeople()" type="button">+</button>
+                        <button class="number-btn minus" onclick="decreasePeople()" type="button">-</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- عرض السعر -->
+            <div class="rate-box">
+                <div class="rate-value" id="rateValue">--</div>
+                <div class="rate-label">💰 السعر للشخص الواحد (2.5 كغم)</div>
+                <div class="rate-label-english">Rate per person (2.5 kg)</div>
+            </div>
+
+            <!-- النتيجة -->
+            <div class="result-box" id="result">
+                <div class="result-amount" id="totalAmount">0 UGX</div>
+                <div class="result-label">💰 إجمالي زكاة الفطر</div>
+                <div class="result-label-english">Total Zakatul Fitr</div>
+                <div class="result-details" id="resultDetails">
+                    <!-- سيتم التعبئة تلقائياً -->
+                </div>
+            </div>
+
+            <!-- زر الحساب (اختياري الآن لأن الحساب تلقائي) -->
+            <button class="calc-btn" onclick="calculateZakat()">🔢 احسب | Calculate</button>
+        </div>
+
+        <!-- باقي المحتوى كما هو -->
+        <div class="greeting-section">
+            <div class="greeting-text">
+                إلى جميع المسلمين في أوغندا، السلام عليكم ورحمة الله وبركاته
+                <small>TO ALL MUSLIMS IN UGANDA, ASSALAM ALAIKUM WARAHTULLAHI WABARAKATUHU</small>
+            </div>
+            
+            <div class="intro-text">
+                <p>تحية طيبة من مقر المجلس الأعلى للمسلمين في أوغندا. فيما يلي أسعار ومبالغ زكاة الفطر لهذا العام حسب الأسعار الحالية للغذاء الأساسي في المناطق الإسلامية في أوغندا. زكاة الفطر واجبة على كل مسلم في الأسرة.</p>
+                <small>Greetings from UMSC H/Qs. Here below are rates and amounts payable in form of Zakatul-fitr for this year calculated according to the current price of staple food in the Muslim regions of Uganda.</small>
+            </div>
+        </div>
+
+        <!-- عنوان الجدول -->
+        <div class="table-title">
+            📊 جدول زكاة الفطر المفصل (من 1 إلى 10 أشخاص)
+            <small>ZAKATUL FITIR CALCULATIONS - KAMPALA</small>
+        </div>
+
+        <!-- الجدول -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>الطعام / Food</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                        <th>10</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td class="food-name-cell">موز غير مقشر <small>Un pealed bananas</small></td><td class="amount-cell">5,000</td><td class="amount-cell">10,000</td><td class="amount-cell">15,000</td><td class="amount-cell">20,000</td><td class="amount-cell">25,000</td><td class="amount-cell">30,000</td><td class="amount-cell">35,000</td><td class="amount-cell">40,000</td><td class="amount-cell">45,000</td><td class="amount-cell">50,000</td></tr>
+                    <tr><td>2</td><td class="food-name-cell">أرز <small>Rice</small></td><td class="amount-cell">12,500</td><td class="amount-cell">25,000</td><td class="amount-cell">37,500</td><td class="amount-cell">50,000</td><td class="amount-cell">62,500</td><td class="amount-cell">75,000</td><td class="amount-cell">87,500</td><td class="amount-cell">100,000</td><td class="amount-cell">112,500</td><td class="amount-cell">125,000</td></tr>
+                    <tr><td>3</td><td class="food-name-cell">دقيق قمح <small>Wheat flour</small></td><td class="amount-cell">8,750</td><td class="amount-cell">17,500</td><td class="amount-cell">26,250</td><td class="amount-cell">35,000</td><td class="amount-cell">43,750</td><td class="amount-cell">52,500</td><td class="amount-cell">61,250</td><td class="amount-cell">70,000</td><td class="amount-cell">78,750</td><td class="amount-cell">87,500</td></tr>
+                    <tr><td>4</td><td class="food-name-cell">دقيق ذرة <small>Maize flour</small></td><td class="amount-cell">6,250</td><td class="amount-cell">12,500</td><td class="amount-cell">18,750</td><td class="amount-cell">25,000</td><td class="amount-cell">31,250</td><td class="amount-cell">37,500</td><td class="amount-cell">43,750</td><td class="amount-cell">50,000</td><td class="amount-cell">56,250</td><td class="amount-cell">62,500</td></tr>
+                    <tr><td>5</td><td class="food-name-cell">دقيق كاسافا <small>Cassava flour</small></td><td class="amount-cell">3,750</td><td class="amount-cell">7,500</td><td class="amount-cell">11,250</td><td class="amount-cell">15,000</td><td class="amount-cell">18,750</td><td class="amount-cell">22,500</td><td class="amount-cell">26,250</td><td class="amount-cell">30,000</td><td class="amount-cell">33,750</td><td class="amount-cell">37,500</td></tr>
+                    <tr><td>6</td><td class="food-name-cell">دقيق دخن <small>Millet flour</small></td><td class="amount-cell">7,500</td><td class="amount-cell">15,000</td><td class="amount-cell">22,500</td><td class="amount-cell">30,000</td><td class="amount-cell">37,500</td><td class="amount-cell">45,000</td><td class="amount-cell">52,500</td><td class="amount-cell">60,000</td><td class="amount-cell">67,500</td><td class="amount-cell">75,000</td></tr>
+                    <tr><td>7</td><td class="food-name-cell">فاصوليا <small>Beans</small></td><td class="amount-cell">10,000</td><td class="amount-cell">20,000</td><td class="amount-cell">30,000</td><td class="amount-cell">40,000</td><td class="amount-cell">50,000</td><td class="amount-cell">60,000</td><td class="amount-cell">70,000</td><td class="amount-cell">80,000</td><td class="amount-cell">90,000</td><td class="amount-cell">100,000</td></tr>
+                    <tr><td>8</td><td class="food-name-cell">بطاطس <small>Irish potatoes</small></td><td class="amount-cell">7,500</td><td class="amount-cell">15,000</td><td class="amount-cell">22,500</td><td class="amount-cell">30,000</td><td class="amount-cell">37,500</td><td class="amount-cell">45,000</td><td class="amount-cell">52,500</td><td class="amount-cell">60,000</td><td class="amount-cell">67,500</td><td class="amount-cell">75,000</td></tr>
+                    <tr><td>9</td><td class="food-name-cell">ذرة رفيعة <small>Sorghum</small></td><td class="amount-cell">8,750</td><td class="amount-cell">17,500</td><td class="amount-cell">26,250</td><td class="amount-cell">35,000</td><td class="amount-cell">43,750</td><td class="amount-cell">52,500</td><td class="amount-cell">61,250</td><td class="amount-cell">70,000</td><td class="amount-cell">78,750</td><td class="amount-cell">87,500</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- الإشارة للمجلس -->
+        <div class="umsc-reference">
+            📌 بناءً على بيان المجلس الأعلى للمسلمين في أوغندا (UMSC) - رمضان 1447هـ / 2026م
+            <small>Based on the official statement of the Uganda Muslim Supreme Council (UMSC) - Ramadan 1447H / 2026</small>
+        </div>
+
+        <!-- توقيع المطور -->
+        <div class="developer-signature">
+            <div class="developer-name">Mazin Ahmed Ibrahim</div>
+            <div class="developer-contact">
+                <div class="developer-phone">📞 +256 789 807 191</div>
+                <div class="developer-email">✉️ mazin.ahmed.i.m@gmail.com</div>
+            </div>
+            <div class="developer-title">
+                تطوير وتصميم التطبيق
+                <small>Application Development & Design</small>
+            </div>
+        </div>
+
+        <!-- ملاحظة ختامية -->
+        <div class="note">
+            <span>📢 مقدار زكاة الفطر: 2.5 كيلوغرام للشخص الواحد</span>
+            <small>Zakatul Fitr Amount: 2.5 kg per person</small>
+        </div>
+
+        <div class="footer">
+            تم التحديث في 16 مارس 2026 - جميع الأسعار بالشيلنغ الأوغندي
+            <small>Updated on 6th March 2026 - All prices in Ugandan Shillings (UGX)</small>
+        </div>
+    </div>
+
+    <script>
+        const foodRates = {
+            bananas: 5000, rice: 12500, wheat: 8750, maize: 6250,
+            cassava: 3750, millet: 7500, beans: 10000, potatoes: 7500, sorghum: 8750
+        };
+
+        const foodNames = {
+            bananas: 'موز غير مقشر', rice: 'أرز', wheat: 'دقيق قمح',
+            maize: 'دقيق ذرة', cassava: 'دقيق كاسافا', millet: 'دقيق دخن',
+            beans: 'فاصوليا', potatoes: 'بطاطس', sorghum: 'ذرة رفيعة'
+        };
+
+        const ZAKAT_QUANTITY = 2.5;
+
+        // دالة المسح - تمسح الحقل وتضع المؤشر للكتابة
+        function clearPeopleInput() {
+            const input = document.getElementById('peopleCount');
+            input.value = '';
+            input.focus();
+        }
+
+        // دالة زيادة العدد
+        function increasePeople() {
+            const input = document.getElementById('peopleCount');
+            let currentValue = parseInt(input.value);
+            
+            if (isNaN(currentValue) || currentValue < 1) {
+                input.value = 1;
+            } else {
+                input.value = currentValue + 1;
+            }
+            
+            // تحديث الحساب
+            if (document.getElementById('foodType').value) {
+                calculateZakat();
+            }
+        }
+
+        // دالة نقصان العدد
+        function decreasePeople() {
+            const input = document.getElementById('peopleCount');
+            let currentValue = parseInt(input.value);
+            
+            if (isNaN(currentValue) || currentValue <= 1) {
+                input.value = 1;
+            } else {
+                input.value = currentValue - 1;
+            }
+            
+            // تحديث الحساب
+            if (document.getElementById('foodType').value) {
+                calculateZakat();
+            }
+        }
+
+        function calculateZakat() {
+            const foodType = document.getElementById('foodType').value;
+            let peopleInput = document.getElementById('peopleCount').value;
+            let peopleCount;
+
+            // التحقق من صحة الإدخال
+            if (peopleInput === '' || peopleInput === null) {
+                peopleCount = 1;
+                document.getElementById('peopleCount').value = 1;
+            } else {
+                peopleCount = parseInt(peopleInput);
+                if (isNaN(peopleCount) || peopleCount < 1) {
+                    peopleCount = 1;
+                    document.getElementById('peopleCount').value = 1;
+                }
+            }
+
+            if (!foodType) {
+                alert('⚠️ الرجاء اختيار نوع الطعام / Please select food type');
+                return;
+            }
+
+            const ratePerPerson = foodRates[foodType];
+            const totalAmount = ratePerPerson * peopleCount;
+
+            document.getElementById('rateValue').textContent = `${ratePerPerson.toLocaleString()} UGX`;
+            document.getElementById('totalAmount').textContent = `${totalAmount.toLocaleString()} UGX`;
+            
+            document.getElementById('resultDetails').innerHTML = `
+                ${foodNames[foodType]}<br>
+                👥 ${peopleCount} شخص × ${ZAKAT_QUANTITY} كغم × ${ratePerPerson.toLocaleString()} UGX = ${totalAmount.toLocaleString()} UGX
+                <small>${peopleCount} people × ${ZAKAT_QUANTITY} kg × ${ratePerPerson.toLocaleString()} UGX = ${totalAmount.toLocaleString()} UGX</small>
+            `;
+        }
+
+        // تحسين: عند تغيير القيمة يدوياً، يتم الحساب تلقائياً
+        document.getElementById('peopleCount').addEventListener('input', function() {
+            if (document.getElementById('foodType').value) {
+                calculateZakat();
+            }
+        });
+
+        // عند فقدان التركيز، تأكد من أن القيمة صحيحة
+        document.getElementById('peopleCount').addEventListener('blur', function() {
+            if (this.value === '' || this.value === null || parseInt(this.value) < 1) {
+                this.value = 1;
+                if (document.getElementById('foodType').value) {
+                    calculateZakat();
+                }
+            }
+        });
+
+        document.getElementById('foodType').addEventListener('change', function() {
+            if (this.value) {
+                document.getElementById('rateValue').textContent = `${foodRates[this.value].toLocaleString()} UGX`;
+                calculateZakat();
+            } else {
+                document.getElementById('rateValue').textContent = '--';
+                document.getElementById('totalAmount').textContent = '0 UGX';
+                document.getElementById('resultDetails').innerHTML = '';
+            }
+        });
+
+        window.onload = function() {
+            document.getElementById('foodType').value = 'rice';
+            document.getElementById('rateValue').textContent = '12,500 UGX';
+            calculateZakat();
+        };
+    </script>
+</body>
+</html>
